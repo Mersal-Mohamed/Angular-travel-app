@@ -1,0 +1,13 @@
+<div class="list">
+  <ng-container *ngIf="places?.length > 0; else select">
+    <h2>Restaurants & Attracations around you</h2>
+
+    <div *ngFor="let place of places">
+      <place-details [place]="place"></place-details>
+    </div>
+  </ng-container>
+  <ng-template #select>
+        <h2>Please choose location on the Map to get list of Restaurants
+        </h2>
+  </ng-template>
+</div>

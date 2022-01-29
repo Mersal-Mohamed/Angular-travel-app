@@ -1,0 +1,18 @@
+.app{
+    &-main{
+        display: flex;
+        flex-wrap: wrap;
+        &__list{
+            width: 100%;
+            @media screen and (min-width: 768px){
+                width: 25%;
+            }
+        }
+        &__map{
+            width: 100%;
+            @media screen and (min-width: 768px){
+                width: 75%;
+            }
+        }
+    }
+}

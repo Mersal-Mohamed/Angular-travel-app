@@ -1,0 +1,12 @@
+<div class="app">
+  <header></header>
+  <div class="app-main">
+    <div class="app-main__list">
+      <list [places]='places?.data'>
+      </list>
+    </div>
+    <div class="app-main__map">
+      <map (getPlaces)="getPlaces($event)"></map>
+    </div>
+  </div>
+</div>

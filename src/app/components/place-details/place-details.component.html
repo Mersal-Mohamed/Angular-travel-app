@@ -1,0 +1,67 @@
+<ng-container *ngIf="place.name">
+  <div class="place-card">
+    <img
+      src="{{
+        place?.photo
+          ? place?.photo?.images?.original.url
+          : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'
+      }}"
+      alt=""
+      srcset=""
+    />
+    <div class="place-card__details">
+      <h5 class="place-card__details-name">
+        {{ place?.name ? place.name : "No Name" }}
+      </h5>
+      <div class="place-card__details-rating" *ngIf="place?.rating">
+        <div class="place-card__details-rating--stars">
+          <span
+            *ngFor="let rate of [].constructor(place?.rating | stringToNumber)"
+          >
+            <img src="assets/golden.png" alt="" />
+          </span>
+        </div>
+
+        <span> out of {{ place.num_reviews }} reviews </span>
+      </div>
+      <div class="place-card__details-price">
+        <span>Price</span>
+        <span> {{ place.price_level }} </span>
+      </div>
+      <div class="place-card__details-ranking">
+        Ranking
+        {{ place.ranking }}
+      </div>
+      <div class="place-card__details-chips">
+        <ng-container *ngIf="place?.cuisine?.length > 0"></ng-container>
+        <span *ngFor="let cuisine of place.cuisine">
+          {{ cuisine.name }}
+        </span>
+      </div>
+      <div class="place-card__details-address" *ngIf="place?.address">
+        <img
+          src="assets/location.jpg"
+          alt=""
+          srcset=""
+          width="32px"
+          height="32px"
+        />
+        <span>{{ place?.address }}</span>
+      </div>
+      <div class="place-card__details-telephone" *ngIf="place?.phone">
+        <img
+          src="assets/telephone.png"
+          alt=""
+          srcset=""
+          width="32px"
+          height="32px"
+        />
+        <span>{{ place?.phone }}</span>
+      </div>
+      <div class="place-card__details-website" *ngIf="place.website">
+        <a href="{{ place.web_url }}" target="_blank">Travel Advisor</a>
+        <a href="{{ place.website }}" target="_blank">Website</a>
+      </div>
+    </div>
+  </div>
+</ng-container>
