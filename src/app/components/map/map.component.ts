@@ -1,5 +1,5 @@
 import { GoogleMap } from '@angular/google-maps';
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { PlacesService } from 'src/app/services/places.service';
 
 @Component({
@@ -10,24 +10,22 @@ import { PlacesService } from 'src/app/services/places.service';
 export class MapComponent implements OnInit {
   @Output() getPlaces = new EventEmitter<object>();
   @ViewChild('map') map!: GoogleMap;
- 
+  @Input() place!: any;
+
   zoom = 12;
   center: google.maps.LatLngLiteral | any;
   options: google.maps.MapOptions = {
-    mapTypeId: 'hybrid',
-    zoomControl: false,
+    zoomControl: true,
     scrollwheel: false,
     disableDoubleClickZoom: true,
     maxZoom: 15,
     minZoom: 8,
+    scaleControl: true
   }
   markerOptions: google.maps.MarkerOptions = { draggable: false };
   markerPositions: google.maps.LatLngLiteral[] = [];
 
-
-  constructor(private placesService: PlacesService) {
-
-  }
+  constructor(private placesService: PlacesService) { }
 
   ngOnInit(): void {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -36,17 +34,33 @@ export class MapComponent implements OnInit {
         lng: position.coords.longitude,
       }
       this.zoom = 13;
-      console.log(this.map)
+      this.map.googleMap?.setCenter(this.center)
+      this.map.googleMap?.setOptions(this.options)
       let params = {
-        bl_latitude: this.map.googleMap?.getBounds()?.getSouthWest().lat(),
-        tr_latitude: this.map.googleMap?.getBounds()?.getNorthEast().lat(),
-        bl_longitude: this.map.googleMap?.getBounds()?.getSouthWest().lng(),
-        tr_longitude: this.map.googleMap?.getBounds()?.getNorthEast().lng()
-      }
-      // this.placesService.getRestaurants(params).subscribe(data => {
-      //   this.getPlaces.emit(data);
-      // })
+        bl_latitude: this.map?.googleMap?.getBounds()?.getSouthWest().lat(),
+        tr_latitude: this.map?.googleMap?.getBounds()?.getNorthEast().lat(),
+        bl_longitude: this.map?.googleMap?.getBounds()?.getSouthWest().lng(),
+        tr_longitude: this.map?.googleMap?.getBounds()?.getNorthEast().lng()
+      }      
+      this.getResturants(params); 
     })
+
+
+  }
+
+  ngOnChanges() {
+    console.log(this.place);
+    if(this.place?.geometry) {
+      this.map?.googleMap?.panTo(this.place?.geometry?.location);
+      this.map?.googleMap?.setZoom(12);
+      let params = {
+        bl_latitude: this.map?.googleMap?.getBounds()?.getSouthWest().lat(),
+        tr_latitude: this.map?.googleMap?.getBounds()?.getNorthEast().lat(),
+        bl_longitude: this.map?.googleMap?.getBounds()?.getSouthWest().lng(),
+        tr_longitude: this.map?.googleMap?.getBounds()?.getNorthEast().lng()
+      }
+      this.getResturants(params);
+    }
 
   }
 
@@ -59,19 +73,21 @@ export class MapComponent implements OnInit {
       bl_longitude: this.map.googleMap?.getBounds()?.getSouthWest().lng(),
       tr_longitude: this.map.googleMap?.getBounds()?.getNorthEast().lng()
     }
-    console.log(params)
-    this.placesService.getRestaurants(params).subscribe(places => {
-      let lat;
-      let lng;
-      places.data.forEach((place: any) => {
-        lat = parseFloat(place.latitude);
-        lng = parseFloat(place.longitude);
-        this.markerPositions.push({ lat, lng })
-      });
-
-      this.getPlaces.emit(places);
-    })
+    this.getResturants(params);
   }
 
+  getResturants(params: any) {
+    // this.placesService.getRestaurants(params).subscribe(places => {
+    //   let lat;
+    //   let lng;
+    //   places.data.forEach((place: any) => {
+    //     lat = parseFloat(place.latitude);
+    //     lng = parseFloat(place.longitude);
+    //     this.markerPositions.push({ lat, lng })
+    //   });
+
+    //   this.getPlaces.emit(places);
+    // })
+  }
 
 }

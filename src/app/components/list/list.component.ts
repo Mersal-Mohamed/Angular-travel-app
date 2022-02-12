@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PlacesService } from 'src/app/services/places.service';
 
 @Component({
   selector: 'list',
@@ -9,11 +8,9 @@ import { PlacesService } from 'src/app/services/places.service';
 export class ListComponent implements OnInit {
   @Input() places: any;
 
-  constructor(private placesService: PlacesService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
-  ngOnChanges() {
-    console.log(this.places)
-  }
+
 }

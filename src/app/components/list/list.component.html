@@ -1,4 +1,6 @@
 <div class="list">
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
   <ng-container *ngIf="places?.length > 0; else select">
     <h2>Restaurants & Attracations around you</h2>
 
@@ -6,8 +8,8 @@
       <place-details [place]="place"></place-details>
     </div>
   </ng-container>
+
   <ng-template #select>
-        <h2>Please choose location on the Map to get list of Restaurants
-        </h2>
+    <h2>Please choose location on the Map to get list of Restaurants</h2>
   </ng-template>
 </div>

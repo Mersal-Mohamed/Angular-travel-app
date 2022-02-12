@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { NgxSpinnerService } from "ngx-spinner";
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +21,21 @@ export class PlacesService {
       'x-rapidapi-key': this.xRapidapiKey
     }
   };
-  constructor(private http: HttpClient) {  }
+  constructor(private http: HttpClient, private spinner: NgxSpinnerService) {  
+ 
+  }
 
 
   getRestaurants(params: any): Observable<any> {
     this.options.params = {...params}
-    return this.http.get(this.url,this.options)
+    this.spinner.show();
+    return this.http.get(this.url,this.options).pipe(tap({
+      complete: () => {
+        this.spinner.hide();
+      },
+      error: () => {
+        this.spinner.hide()
+      }
+    }))
   }
 }

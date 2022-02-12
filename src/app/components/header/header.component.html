@@ -1,10 +1,20 @@
 <nav>
-    <div class='logo'>
-        <h5>Travel guide</h5>
-    </div>
-    <div class='search'>
-        <h6>Explore New Places</h6>
-        <input type="text" class="form-control" id="txtSearchPlaces" name="txtSearchPlaces" #txtSearchPlaces="ngModel"
-        [(ngModel)]="shippingAddress" placeholder="Enter places">
-    </div>
+  <div class="logo">
+    <h5>Travel guide</h5>
+  </div>
+  <div class="search">
+    <h6>Explore New Places</h6>
+     <input
+      type="text"
+      class="form-control"
+      id="txtSearchPlaces"
+      name="txtSearchPlaces"
+      placeholder="Enter place"
+    /> 
+  </div>
 </nav>
+
+<div class="popup" id="popup">
+  <p>No details available for input: {{ place?.name }}</p>
+  <button (click)="closePopUp()">Ok</button>
+</div>
