@@ -77,17 +77,17 @@ export class MapComponent implements OnInit {
   }
 
   getResturants(params: any) {
-    // this.placesService.getRestaurants(params).subscribe(places => {
-    //   let lat;
-    //   let lng;
-    //   places.data.forEach((place: any) => {
-    //     lat = parseFloat(place.latitude);
-    //     lng = parseFloat(place.longitude);
-    //     this.markerPositions.push({ lat, lng })
-    //   });
+    this.placesService.getRestaurants(params).subscribe(places => {
+      let lat;
+      let lng;
+      places.data.forEach((place: any) => {
+        lat = parseFloat(place.latitude);
+        lng = parseFloat(place.longitude);
+        this.markerPositions.push({ lat, lng })
+      });
 
-    //   this.getPlaces.emit(places);
-    // })
+      this.getPlaces.emit(places);
+    })
   }
 
 }
